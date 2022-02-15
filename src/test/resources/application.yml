@@ -1,0 +1,24 @@
+server:
+  error:
+    include-stacktrace: never
+    include-exception: false
+    whitelabel.enabled: false
+
+spring:
+  profiles: test
+
+  datasource:
+    url: jdbc:h2:mem:database;
+    driverClassName: org.h2.Driver
+    username: sa
+    password: password
+
+  jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
+
+  liquibase:
+    change-log: classpath:/db/changelog/db.changelog-master.yaml
+
+  jackson:
+    mapper:
+      accept-case-insensitive-enums: true
