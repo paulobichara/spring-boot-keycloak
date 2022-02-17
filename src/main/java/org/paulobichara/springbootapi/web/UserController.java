@@ -23,10 +23,10 @@ public class UserController {
     Page<User> page = userService.getUsers(pageable);
 
     return new UsersPageDto(
-            page.getContent(),
-            page.getPageable().getPageNumber(),
-            page.getPageable().getPageSize(),
-            page.getTotalElements());
+        page.getContent(),
+        page.getPageable().getPageNumber(),
+        page.getPageable().getPageSize(),
+        page.getTotalElements());
   }
 
   @PostMapping

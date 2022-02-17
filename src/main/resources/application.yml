@@ -1,4 +1,6 @@
 server:
+  port: 8081
+
   error:
     include-stacktrace: never
     include-exception: false
@@ -6,8 +8,8 @@ server:
 
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:5432/postgres?ssl=false
-    username: postgres
+    url: jdbc:postgresql://localhost:5432/spring_boot_api?ssl=false
+    username: spring_boot_api
     password: password
     hikari:
       initialization-fail-timeout: 30000
@@ -24,3 +26,10 @@ spring:
   jackson:
     mapper:
       accept-case-insensitive-enums: true
+
+keycloak:
+  auth-server-url: http://localhost:8080/auth
+  realm: AppRealm
+  public-client: true
+  resource: login-app
+  principal-attribute: preferred_username

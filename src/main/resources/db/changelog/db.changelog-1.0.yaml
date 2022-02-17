@@ -1,8 +1,4 @@
 databaseChangeLog:
-  - preConditions:
-  - runningAs:
-      username: liquibase
-
   - changeSet:
       id: 1
       author: paulobichara
@@ -38,7 +34,17 @@ databaseChangeLog:
                   constraints:
                     nullable: false
               - column:
+                  name: role
+                  type: varchar(50)
+                  constraints:
+                    nullable: false
+              - column:
                   name: password
                   type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: active
+                  type: boolean
                   constraints:
                     nullable: false
