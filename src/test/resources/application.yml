@@ -1,4 +1,6 @@
 server:
+  port: 8081
+
   error:
     include-stacktrace: never
     include-exception: false
@@ -19,6 +21,16 @@ spring:
   liquibase:
     change-log: classpath:/db/changelog/db.changelog-master.yaml
 
-  jackson:
-    mapper:
-      accept-case-insensitive-enums: true
+keycloak:
+  auth-server-url: http://localhost:8080/auth
+  realm: AppRealm
+  public-client: true
+  resource: login-app
+  principal-attribute: preferred_username
+
+spring-boot-api:
+  keycloak:
+    client:
+      id: spring-boot-api
+      secret: o4sIaCVBkbEWiWmnKlXwM3H5QeMMK0Vf
+    role-id: c389c85c-3c9a-447a-9506-e297ad0971e5

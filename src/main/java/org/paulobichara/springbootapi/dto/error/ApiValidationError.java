@@ -2,16 +2,6 @@ package org.paulobichara.springbootapi.dto.error;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
 
-@AllArgsConstructor
-@Getter
 @JsonInclude(Include.NON_NULL)
-public class ApiValidationError {
-
-    private String field;
-    private Object rejectedValue;
-    private String message;
-
-}
+public record ApiValidationError(String field, Object rejectedValue, String message) {}

@@ -6,7 +6,6 @@ import org.paulobichara.springbootapi.exception.ApiException;
 import org.paulobichara.springbootapi.exception.keycloak.UserAlreadyRegisteredException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -18,6 +17,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -28,13 +28,14 @@ public class ControllerExceptionHandler extends ResponseEntityExceptionHandler {
     private static final Logger LOGGER = LoggerFactory.getLogger(ControllerExceptionHandler.class);
     private static final String VALIDATION_FAILED = "exception.validation.failure";
 
-    @Autowired
-    private MessageSource messageSource;
+    private final MessageSource messageSource;
+
+    ControllerExceptionHandler(MessageSource messageSource) {
+        this.messageSource = messageSource;
+    }
 
     @Override
     protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
-        ApiError apiError = new ApiError(messageSource.getMessage(VALIDATION_FAILED, new Object[]{}, request.getLocale()));
-
         List<ApiValidationError> subErrors = new ArrayList<>();
         ex.getBindingResult().getAllErrors().forEach(error -> {
             if (error instanceof FieldError fieldError) {
@@ -45,8 +46,8 @@ public class ControllerExceptionHandler extends ResponseEntityExceptionHandler {
             }
         });
 
-        apiError.setValidationErrors(subErrors);
-        LOGGER.error(apiError.getMessage(), ex);
+        ApiError apiError = new ApiError(LocalDateTime.now(), messageSource.getMessage(VALIDATION_FAILED, new Object[]{}, request.getLocale()), subErrors);
+        LOGGER.error(apiError.message(), ex);
 
         return new ResponseEntity<>(apiError, headers, status);
     }
@@ -58,8 +59,8 @@ public class ControllerExceptionHandler extends ResponseEntityExceptionHandler {
 
     private ResponseEntity<ApiError> handleApiException(HttpStatus status, ApiException exception, Locale locale) {
         String message = messageSource.getMessage(exception.getMessage(), exception.getArgs(), locale);
-        ApiError error = new ApiError(message);
-        LOGGER.error(error.getMessage(), exception);
+        ApiError error = new ApiError(LocalDateTime.now(), message, null);
+        LOGGER.error(error.message(), exception);
         return new ResponseEntity<>(error, status);
     }
 }

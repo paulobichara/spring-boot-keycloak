@@ -17,10 +17,6 @@ spring:
   liquibase:
     change-log: classpath:/db/changelog/db.changelog-master.yaml
 
-  jackson:
-    mapper:
-      accept-case-insensitive-enums: true
-
 keycloak:
   auth-server-url: http://localhost:8080/auth
   realm: AppRealm
