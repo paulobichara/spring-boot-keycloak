@@ -1,12 +1,12 @@
 package org.paulobichara.springbootapi.web;
 
-import org.paulobichara.springbootapi.dto.NewUserDto;
-import org.paulobichara.springbootapi.dto.UsersPageDto;
-import org.paulobichara.springbootapi.model.User;
+import org.paulobichara.springbootapi.dto.NewUser;
+import org.paulobichara.springbootapi.dto.keycloak.User;
 import org.paulobichara.springbootapi.service.UserService;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
+import java.security.Principal;
 
 @RestController
 @RequestMapping("/users")
@@ -18,19 +18,13 @@ public class UserController {
     this.userService = userService;
   }
 
-  @GetMapping
-  UsersPageDto getUsers(Pageable pageable) {
-    Page<User> page = userService.getUsers(pageable);
-
-    return new UsersPageDto(
-        page.getContent(),
-        page.getPageable().getPageNumber(),
-        page.getPageable().getPageSize(),
-        page.getTotalElements());
+  @PostMapping
+  void createUser(@Valid @RequestBody NewUser newUser) {
+    userService.createUser(newUser);
   }
 
-  @PostMapping
-  User createUser(@RequestBody NewUserDto newUser) {
-    return userService.createUser(newUser);
+  @GetMapping(path = "/me")
+  public User customers(Principal principal) {
+    return User.from(principal);
   }
 }

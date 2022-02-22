@@ -3,7 +3,7 @@ package org.paulobichara.springbootapi.web;
 import org.paulobichara.springbootapi.dto.error.ApiError;
 import org.paulobichara.springbootapi.dto.error.ApiValidationError;
 import org.paulobichara.springbootapi.exception.ApiException;
-import org.paulobichara.springbootapi.exception.UserAlreadyRegisteredException;
+import org.paulobichara.springbootapi.exception.keycloak.UserAlreadyRegisteredException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,7 +26,7 @@ import java.util.Locale;
 public class ControllerExceptionHandler extends ResponseEntityExceptionHandler {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ControllerExceptionHandler.class);
-    private static final String VALIDATION_FAILED = "validation.failure";
+    private static final String VALIDATION_FAILED = "exception.validation.failure";
 
     @Autowired
     private MessageSource messageSource;

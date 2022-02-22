@@ -14,12 +14,6 @@ spring:
     hikari:
       initialization-fail-timeout: 30000
 
-  #  jpa:
-  #    show-sql: true
-  #    properties:
-  #      hibernate:
-  #        format_sql: true
-
   liquibase:
     change-log: classpath:/db/changelog/db.changelog-master.yaml
 
@@ -33,3 +27,10 @@ keycloak:
   public-client: true
   resource: login-app
   principal-attribute: preferred_username
+
+spring-boot-api:
+  keycloak:
+    client:
+      id: spring-boot-api
+      secret: o4sIaCVBkbEWiWmnKlXwM3H5QeMMK0Vf
+    role-id: c389c85c-3c9a-447a-9506-e297ad0971e5

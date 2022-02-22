@@ -20,6 +20,8 @@ services:
       - ./pgadmin4/servers.json:/pgadmin4/servers.json
     ports:
       - "80:80"
+    depends_on:
+      - "postgres"
     environment:
       PGADMIN_DEFAULT_EMAIL: user@domain.com
       PGADMIN_DEFAULT_PASSWORD: password
@@ -32,6 +34,8 @@ services:
     ports:
       - "8443:8443"
       - "8080:8080"
+    depends_on:
+      - "postgres"
     environment:
       DB_ADDR: postgres
       DB_DATABASE: keycloak
@@ -40,12 +44,3 @@ services:
       KEYCLOAK_USER: admin
       KEYCLOAK_PASSWORD: password
       KEYCLOAK_IMPORT: /tmp/realm-export.json
-
-  spring-boot-api:
-    build: ..
-    container_name: spring-boot-api
-    ports:
-      - "8081:8081"
-    environment:
-      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/spring_boot_api?ssl=false
-      KEYCLOAK_AUTH_SERVER_URL: http://keycloak:8080/auth
