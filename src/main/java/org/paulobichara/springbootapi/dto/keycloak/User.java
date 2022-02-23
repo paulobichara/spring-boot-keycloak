@@ -2,7 +2,7 @@ package org.paulobichara.springbootapi.dto.keycloak;
 
 import org.keycloak.adapters.springsecurity.token.KeycloakAuthenticationToken;
 import org.keycloak.representations.AccessToken;
-import org.paulobichara.springbootapi.dto.NewUser;
+import org.paulobichara.springbootapi.dto.NewUserRequest;
 
 import java.security.Principal;
 
@@ -21,14 +21,14 @@ public record User(String username,
         return null;
     }
 
-    public static User from(NewUser newUser) {
-        Credential credential = new Credential("password", newUser.getPassword(), false);
+    public static User from(NewUserRequest newUser) {
+        Credential credential = new Credential("password", newUser.password(), false);
 
         return new User(
-                newUser.getUsername(),
-                newUser.getEmail(),
-                newUser.getFirstName(),
-                newUser.getLastName(),
+                newUser.username(),
+                newUser.email(),
+                newUser.firstName(),
+                newUser.lastName(),
                 true,
                 new Credential[] {credential});
     }

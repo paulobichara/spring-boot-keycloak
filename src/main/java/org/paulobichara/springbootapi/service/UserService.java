@@ -2,7 +2,7 @@ package org.paulobichara.springbootapi.service;
 
 import org.paulobichara.springbootapi.config.property.KeycloakBaseProperties;
 import org.paulobichara.springbootapi.config.property.KeycloakLocalProperties;
-import org.paulobichara.springbootapi.dto.NewUser;
+import org.paulobichara.springbootapi.dto.NewUserRequest;
 import org.paulobichara.springbootapi.dto.keycloak.AccessToken;
 import org.paulobichara.springbootapi.dto.keycloak.Role;
 import org.paulobichara.springbootapi.dto.keycloak.RoleMapping;
@@ -87,7 +87,7 @@ public class UserService {
         .block();
   }
 
-  public void createUser(NewUser newUser) {
+  public void createUser(NewUserRequest newUser) {
     User user = User.from(newUser);
 
     String baseUrl = baseProps.authServerUrl() + "/admin/realms/" + baseProps.realm() + "/users";
@@ -104,16 +104,16 @@ public class UserService {
             .exchangeToMono(
                 response -> {
                   if (HttpStatus.CONFLICT == response.statusCode()) {
-                    return Mono.error(new UserAlreadyRegisteredException(newUser.getUsername()));
+                    return Mono.error(new UserAlreadyRegisteredException(newUser.username()));
                   } else if (response.statusCode().isError()) {
-                    return Mono.error(new UserRegistrationException(newUser.getUsername()));
+                    return Mono.error(new UserRegistrationException(newUser.username()));
                   } else {
                     Pattern pattern = Pattern.compile("^" + baseUrl + "/((\\w|-)*)$");
                     Matcher matcher = pattern.matcher(response.headers().header("location").get(0));
 
                     return matcher.find()
                         ? Mono.just(matcher.group(1))
-                        : Mono.error(new UserRegistrationException(newUser.getUsername()));
+                        : Mono.error(new UserRegistrationException(newUser.username()));
                   }
                 })
             .block();

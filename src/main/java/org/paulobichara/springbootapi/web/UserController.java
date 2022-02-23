@@ -1,6 +1,6 @@
 package org.paulobichara.springbootapi.web;
 
-import org.paulobichara.springbootapi.dto.NewUser;
+import org.paulobichara.springbootapi.dto.NewUserRequest;
 import org.paulobichara.springbootapi.dto.keycloak.User;
 import org.paulobichara.springbootapi.service.UserService;
 import org.springframework.web.bind.annotation.*;
@@ -19,12 +19,12 @@ public class UserController {
   }
 
   @PostMapping
-  void createUser(@Valid @RequestBody NewUser newUser) {
+  void createUser(@Valid @RequestBody NewUserRequest newUser) {
     userService.createUser(newUser);
   }
 
   @GetMapping(path = "/me")
-  public User customers(Principal principal) {
+  public User me(Principal principal) {
     return User.from(principal);
   }
 }
