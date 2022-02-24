@@ -108,11 +108,11 @@ public class UserService {
                   } else if (response.statusCode().isError()) {
                     return Mono.error(new UserRegistrationException(newUser.username()));
                   } else {
-                    Pattern pattern = Pattern.compile("^" + baseUrl + "/((\\w|-)*)$");
+                    Pattern pattern = Pattern.compile("^" + baseUrl + "(/?|/((\\w|-)*))$");
                     Matcher matcher = pattern.matcher(response.headers().header("location").get(0));
 
                     return matcher.find()
-                        ? Mono.just(matcher.group(1))
+                        ? Mono.just(matcher.group(2))
                         : Mono.error(new UserRegistrationException(newUser.username()));
                   }
                 })
