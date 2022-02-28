@@ -6,17 +6,6 @@ server:
     include-exception: false
     whitelabel.enabled: false
 
-spring:
-  datasource:
-    url: jdbc:postgresql://localhost:5432/spring_boot_api?ssl=false
-    username: spring_boot_api
-    password: password
-    hikari:
-      initialization-fail-timeout: 30000
-
-  liquibase:
-    change-log: classpath:/db/changelog/db.changelog-master.yaml
-
 keycloak:
   auth-server-url: http://localhost:8080/auth
   realm: AppRealm
