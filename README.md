@@ -29,7 +29,7 @@ directory to project root and execute:
 
 ## Running
 
-After the infrastructure is running and the application is build, we can run it by executing, from the project root
+After the infrastructure is running and the application is built, we can run it by executing, from the project root
 directory:
 
 ```shell script
